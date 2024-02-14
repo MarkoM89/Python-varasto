@@ -50,16 +50,12 @@ print("\n\n\n")
 '''cur.execute(
     "SELECT nimi,saldo FROM pankki WHERE tunniste=?", 
     (some_name,))
-'''
 
-'''
-Päätoiminto 1: Osta tuote 
+    
 
-Päätoiminto 2: Maksukorttin hallinta
-		Toiminto 1: Luo Maksukortti
-		Toiminto 2: Lataa rahaa
-		Toiminto 3: Poista maksukortti
-		Toiminto 4: Tulosta korttien tiedot
+Päätoiminto 1: Varaston tilanne
+
+Päätoiminto 2: Tuotemäärien lisäys
 
 Päätoiminto 3: Tuotehallinta
 		Toiminto 1: Lisää tuote
@@ -71,7 +67,7 @@ Päätoiminto 4: Poistu ohjelmasta
 
 while toiminto != 4:
     toiminto = int(input("\nPäätoiminto 1: Ostotapahtuma\nPäätoiminto 2: Varaston hallinta\nPäätoiminto 3: Tuotehallinta\n"
-        			+ "Päätoiminto 4: Poistu ohjelmasta\nPäätoiminto 5: Tulosta korttien tiedot\n"))
+        			+ "Päätoiminto 4: Poistu ohjelmasta\n"))
 
     if toiminto == 1:
         print("Päätoiminto 1: Ostotapahtuma")
@@ -145,4 +141,4 @@ while toiminto != 4:
             kuitti.tulostaKuitti()
 
     else:
-        print("Valikko toimii luvuilla 1-5")
+        print("Valikko toimii luvuilla 1-4")
