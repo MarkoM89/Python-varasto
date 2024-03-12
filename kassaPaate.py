@@ -47,63 +47,40 @@ for (tuotetunnste, tuoteNimi, yksikköhinta) in cur:
 
 print("\n\n\n")
 
-'''cur.execute(
-    "SELECT nimi,saldo FROM pankki WHERE tunniste=?", 
-    (some_name,))
+'''
 
-    
+Päätoiminto 1: Varastohallinta
+		Toiminto 1: Varastosaldo
+		Toiminto 2: Osta lisää tuotetta varastoon
 
-Päätoiminto 1: Varaston tilanne
 
-Päätoiminto 2: Tuotemäärien lisäys
-
-Päätoiminto 3: Tuotehallinta
+Päätoiminto 2: Tuotehallinta
 		Toiminto 1: Lisää tuote
 		Toiminto 2: Poista tuote
 		Toiminto 3: Tulosta tuotteet
+		
+Päätoiminto 3: Seuranta
+		Toiminto 1: Selaa kuitteja
+		Toiminto 2: Etsi kuitti
+
 		
 Päätoiminto 4: Poistu ohjelmasta
 '''
 
 while toiminto != 4:
-    toiminto = int(input("\nPäätoiminto 1: Ostotapahtuma\nPäätoiminto 2: Varaston hallinta\nPäätoiminto 3: Tuotehallinta\n"
-        			+ "Päätoiminto 4: Poistu ohjelmasta\n"))
+    
+    toiminto = int(input("\nPäätoiminto 1: Varaston hallinta\nPäätoiminto 2: Tuotehallinta\nPäätoiminto 3: Seuranta\n"
+        			+ "Päätoiminto 4: Poista ohjelmasta\n"))
 
     if toiminto == 1:
-        print("Päätoiminto 1: Ostotapahtuma")
-        nimi = input("Kuka ostaa? ")
-        for ostaja in maksukortit:
-            if ostaja.palautaNimi() == nimi:
+        print("Päätoiminto 1: Varastohallinta")
 
-                tuoteNimi = " "
-                loppusumma = 0.0
-                while tuoteNimi != "":
-                    for tuote in tuotteet:
-                        tuote.tulostaTuote()
-                    tuoteNimi = input("Mitä tuotetta ostetaan? ")
-                    for tuote in tuotteet:
-                        if tuote.haeNimi() == tuoteNimi:
-                            tuoteMaara = int(input("Paljonko laitetaan: "))
-                            ostetutTuotteet.append(tuoteNimi+ " " +str(tuoteMaara)+ "kpl")
-                            loppusumma += (tuote.haeHinta()*tuoteMaara)
-
-                ostaja.veloita(loppusumma)
-                kuitit.append(kuitti(nimi, loppusumma))
-
-                for ostos in ostetutTuotteet:
-                    kuitit[-1].lisaaOstos(ostos)
-
-                kuitit[-1].tulostaKuitti()
-                ostetutTuotteet.clear()
-                loppusumma = 0
 
     elif toiminto == 2:
-        print("Päätoiminto 2: Varaston hallinta")
+        print("Päätoiminto 2: Tuotehallinta")
 
-    elif toiminto == 3:
         while toiminto != 4:
 
-            print("\nPäätoiminto 3: Tuotehallinta")
 				
             toiminto = int(input("\nToiminto 1: Lisää tuote\nToiminto 2: Poista tuote\nToiminto 3: Tulosta tuotteet\n"
 				    		+ "Toiminto 4: Poistu tuotehallinnasta\n"))
@@ -126,7 +103,14 @@ while toiminto != 4:
                 print("Tuotelista")
                 for tuote in tuotteet:
                     tuote.tulostaTuote()
+
         toiminto = 0
+
+    elif toiminto == 3:
+
+        print("\nPäätoiminto 3: Seuranta")
+
+
         
     elif toiminto == 4:
         print("Ohjelma sulkeutuu")
