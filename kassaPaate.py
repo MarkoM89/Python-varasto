@@ -29,23 +29,6 @@ except mariadb.Error as e:
 # Get Cursor
 cur = conn.cursor()
 
-cur.execute("select * from pankki")
-
-for (tunniste, nimi, saldo) in cur:
-    print(f"tunniste: {tunniste}, nimi: {nimi}, saldo: {saldo}")
-    maksukortit.append(MaksuKortti(nimi, float(saldo)))
-
-
-print("\n\n\n")
-
-cur.execute("select * from tuote")
-
-for (tuotetunnste, tuoteNimi, yksikköhinta) in cur:
-    print(f"tuotetunnste: {tuotetunnste}, tuoteNimi: {tuoteNimi}, yksikköhinta: {yksikköhinta}")
-    tuotteet.append(Tuote(tuoteNimi, float(yksikköhinta)))
-
-
-print("\n\n\n")
 
 '''
 
@@ -87,22 +70,33 @@ while toiminto != 4:
         
             if toiminto == 1:
                 nimi = (input("Tuotenimi: "))
-                hinta = float(input("Tuotteen yksikköhinta: "))
-                tuotteet.append(Tuote(nimi, hinta))
+                hinta = input("Tuotteen yksikköhinta: ")
+
+                cur.execute("INSERT INTO tuote (tuotenimi, yksikköhinta) VALUES (?, ?)",
+                        (nimi, float(hinta)))
+
+                conn.commit()
             
             elif toiminto == 2:
-                nimi = input("Tuotenimi? Tyhjä kenttä ei poista mitään: ")
-                for tuote in tuotteet:
-                    if tuote.haeNimi() == nimi:
-                        tuotteet.remove(tuote)
-                    else:
-                        #Tuotetta ei löytynyt tulostuu, joka kierroksella, virhe
-                        print("Tuotetta ei löytynyt")
+                tuotetunnus = input("Tuotetunnus? Tyhjä kenttä ei poista mitään: ")
+                tuoteloytyi = False
+
+                if (tuotetunnus != ""):
+
+                    cur.execute("DELETE FROM tuote where tuotetunniste = ?",
+                        ((tuotetunnus,)))
+
+
+                conn.commit()
 
             elif toiminto == 3:
-                print("Tuotelista")
-                for tuote in tuotteet:
-                    tuote.tulostaTuote()
+                print("Tuotelista\n-----------------------")
+
+                cur.execute("SELECT * FROM tuote")
+
+                for(tuotetunniste, tuotenimi, yksikköhinta) in cur:
+
+                    print(str(tuotetunniste)+ " " +tuotenimi+ " " +str(yksikköhinta)+ "€")
 
         toiminto = 0
 
@@ -116,13 +110,20 @@ while toiminto != 4:
         print("Ohjelma sulkeutuu")
 
     elif toiminto == 5:
-        print("Korttien tiedot")
-        for tieto in maksukortit:
-            tieto.tulostaSaldo()
+        print("Korttien tiedot\n")
+
+        cur.execute("SELECT * FROM pankki")
+        for(tunniste, nimi, saldo) in cur:
+
+            print(str(tunniste)+ " " +nimi+ " " +str(saldo)+ "€")
+
 
         print("\n\nKuitit\n-----------------------------------------\n")
-        for kuitti in kuitit:
-            kuitti.tulostaKuitti()
+        cur.execute("SELECT * FROM tuote")
+
+        for(tuotetunniste, tuotenimi, yksikköhinta) in cur:
+
+            print(str(tuotetunniste)+ " " +tuotenimi+ " " +str(yksikköhinta)+ "€")
 
     else:
         print("Valikko toimii luvuilla 1-4")
