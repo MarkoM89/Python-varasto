@@ -1,6 +1,4 @@
-from MaksuKortti import *
-from Tuote import *
-from kuitti import *
+
 
 import mariadb
 import sys
@@ -26,7 +24,7 @@ except mariadb.Error as e:
     print(f"Error connecting to MariaDB Platform: {e}")
     sys.exit(1)
 
-# Get Cursor
+
 cur = conn.cursor()
 
 
