@@ -1,9 +1,8 @@
-
-
 import mariadb
 import sys
 
 toiminto = int(1)
+kuittinumero = int(0)
 maksukortit = []
 tuotteet = []
 kuitit = []
@@ -40,7 +39,7 @@ Päätoiminto 2: Tuotehallinta
 		Toiminto 2: Poista tuote
 		Toiminto 3: Tulosta tuotteet
 		
-Päätoiminto 3: Seuranta
+Päätoiminto 3: Ostoseuranta
 		Toiminto 1: Selaa kuitteja
 		Toiminto 2: Etsi kuitti
 
@@ -100,28 +99,51 @@ while toiminto != 4:
 
     elif toiminto == 3:
 
-        print("\nPäätoiminto 3: Seuranta")
+        print("\nPäätoiminto 3: Ostoseuranta\n")
+
+        toiminto = 0
+
+        while toiminto != 3:
+
+
+            toiminto = int(input("Toiminto 1: Selaa kuitteja\nToiminto 2: Etsi kuitti\nToiminto 3: Poistu ostoseurannasta\n"))
+                               
+
+
+            if toiminto == 1:
+
+
+                print("\n\nKuitit\n-----------------------------------------\n")
+
+                cur.execute("select * from kuitti")
+
+                for (kuittitunnus, osto_aika, kokonaishinta) in cur:
+                    print(str(kuittitunnus)+ " " +str(osto_aika)+ " " +str(kokonaishinta)+ "€")
+
+                print("\n")
+
+
+            if toiminto == 2:
+                kuittinumero = int(input("Anna kuittinumero\n"))
+                
+                print("\nKuitit\n-----------------------------------------\n")
+
+                cur.execute("select * from kuitti where kuittitunnus=?", (kuittinumero,))
+
+                for (kuittitunnus, osto_aika, kokonaishinta) in cur:
+                    print(str(kuittitunnus)+ " " +str(osto_aika)+ " " +str(kokonaishinta)+ "€")
+
+                print("\n")
+
+
+        toiminto = 0
 
 
         
     elif toiminto == 4:
         print("Ohjelma sulkeutuu")
 
-    elif toiminto == 5:
-        print("Korttien tiedot\n")
 
-        cur.execute("SELECT * FROM pankki")
-        for(tunniste, nimi, saldo) in cur:
-
-            print(str(tunniste)+ " " +nimi+ " " +str(saldo)+ "€")
-
-
-        print("\n\nKuitit\n-----------------------------------------\n")
-        cur.execute("SELECT * FROM tuote")
-
-        for(tuotetunniste, tuotenimi, yksikköhinta) in cur:
-
-            print(str(tuotetunniste)+ " " +tuotenimi+ " " +str(yksikköhinta)+ "€")
 
     else:
         print("Valikko toimii luvuilla 1-4")
