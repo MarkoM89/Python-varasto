@@ -16,15 +16,11 @@ Ohjelma on rajoitettu tuotteisiin, niiden käsittelyyn, seurantaan ja ostamiseen
 
 ## 3. Ohjelman käyttöönotto
 
-### 3.1 Tietokannan asennus
 
-Ohjelma käyttää MariaDB-tietokantajärjestelmää, pääohjelmassa syötetään alussa tietokannan yhteystiedot, jotka ovat käyttänimi, salasana, verkkokone / ip-osoite, portti sekä tietokannan nimi:
+### 3.1 Tietokanta
 
-        user="????",
-        password="?????",
-        host="???.?.?.?",
-        port=????,
-        database="????"
+Ohjelma käyttää MariaDB-tietokantajärjestelmää
+
 
 ### 3.2 Taulukkojen luonti ja esiluotujen tietojen syöttö
 
@@ -68,3 +64,14 @@ tuotemäärä INT NOT NULL,
 FOREIGN KEY (kuittitunnus) REFERENCES kuitti(kuittitunnus),
 FOREIGN KEY (tuotetunnus) REFERENCES tuote(tuotetunniste)
 );
+
+
+### 3.3 Tietokannan käyttö ohjelmassa
+
+Pääohjelmassa syötetään alussa tietokannan yhteystiedot, jotka ovat käyttänimi, salasana, verkkokone / ip-osoite, portti sekä tietokannan nimi:
+
+        user="????",
+        password="?????",
+        host="???.?.?.?",
+        port=????,
+        database="????"
